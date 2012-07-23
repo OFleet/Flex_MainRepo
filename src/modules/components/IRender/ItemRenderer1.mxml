@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:s="library://ns.adobe.com/flex/spark"
+				xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:mx="library://ns.adobe.com/flex/mx"
+				autoDrawBackground="false" 
+				click="itemrenderer1_clickHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.core.IFlexDisplayObject;
+			import mx.managers.PopUpManager;
+			import spark.components.BorderContainer;
+			import mx.events.ItemClickEvent;
+			
+			private var newWindow:BorderContainer;
+
+			protected function itemrenderer1_clickHandler(event:MouseEvent):void
+			{				
+					var e:ItemClickEvent = new ItemClickEvent(ItemClickEvent.ITEM_CLICK, true);
+					e.item = data;
+					e.index = itemIndex;
+					dispatchEvent(e);
+			}
+			
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="hovered"/>
+		<s:State name="selected"/>
+	</s:states>
+	<s:VGroup bottom="0" horizontalAlign="center" horizontalCenter="0"
+			  gap.normal="6">
+		<mx:Image source="http://192.168.1.103/Images/Products/{data.SmImage}" scaleContent="true"/>
+		<s:VGroup  textAlign="left" verticalAlign="middle" gap="-19" horizontalAlign="center" >
+			<mx:Image source="assets/images/Window/Label.png"/>
+			<s:RichText id="priceLabel" color="#000000" fontFamily="Arial-BoldMT" fontSize="16"
+						text="{data.Price}р" whiteSpaceCollapse="preserve">
+			</s:RichText>
+		</s:VGroup>
+	</s:VGroup>
+	<s:Rect id="rect1"  width="97" height="190"
+			alpha.hovered="0.21" radiusX="18"
+			alpha.normal="0"
+			alpha.selected="0.21" radiusX.selected="18">
+		<s:fill>
+			<s:SolidColor color="0xCED7EE" color.selected="#FFFFFF" color.hovered="#FFFFFF"/>
+		</s:fill>
+	</s:Rect>
+	<s:transitions>
+		<s:Transition fromState="hovered" toState="normal" autoReverse="true">
+			<s:Parallel>
+				<s:Parallel target="{rect1}">
+					<s:Fade duration="600"/>
+				</s:Parallel>
+			</s:Parallel>
+		</s:Transition>
+	</s:transitions>
+</s:ItemRenderer>

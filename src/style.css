@@ -1,0 +1,113 @@
+
+@namespace s "library://ns.adobe.com/flex/spark";
+@font-face
+{
+	fontFamily: "ArnoPro";
+	src: url("/assets/fonts/ARNOPRO-REGULAR.OTF");
+	embedAsCFF: true;
+}
+@font-face
+{
+	fontFamily: "Gabriola";
+	src: url("/assets/fonts/GABRIOLA.TTF");
+	embedAsCFF: true;
+}
+global
+{
+	color: #000000;
+	font-family: Arial;
+	disabledOverlayAlpha: 1.0;
+}
+.popUpBorder
+{
+	backgroundAlpha: 0.8;
+	borderAlpha: 1.0;
+	contentBackgroundAlpha: 1.0;
+	cornerRadius: 5;
+	dropShadowVisible: true;
+	textAlign: left;
+	verticalAlign: middle;
+}
+.popUpText
+{
+	color: #000000;
+	fontFamily: ArialMT;
+	fontSize: 18;
+	verticalAlign:middle;
+	paddingTop: 8;
+}
+s|RichText.MenuBtn
+{
+	fontFamily: ArnoPro;
+	fontSize: 19;
+	color: #ffffff;
+	textAlign: center;
+	trackingLeft: -1;
+	lineHeight: 14;
+	
+}
+s|Label.MyCartText1
+{
+	color: #000000;
+	fontFamily: Gabriola;
+	fontSize: 26;
+}
+
+s|Label.MyCartText2
+{
+	color: #000000;
+	fontFamily: Gabriola;
+	fontSize: 36;
+}
+.catMenuSt
+{
+	fontFamily:  Helvetica;
+	contentBackgroundColor: #ffffff;
+	fontSize: 18;
+	contentBackgroundAlpha: 0.9;
+	rollOverColor:#ababab;
+	borderVisible: false;
+	openDuration: 150;
+}
+.topLabels
+{
+	color: #ffffff;
+	fontSize: 17;
+}
+.tabBtn
+{
+	fontFamily: ArnoPro;
+	fontSize: 18;
+	color: #605f5f;
+	textAlign: center;
+	lineHeight: 14;
+}
+
+.cityNames
+{
+	fontFamily: ArnoPro;
+	fontSize: 18;
+	color: #1d1d1d;
+	kerning: off;
+	lineHeight: 10;
+	verticalAlign: middle;
+	verticalCenter: 0;
+	horizontalCenter: 0;
+}
+
+.loginForm
+{
+	fontFamily: ArnoPro;
+	fontSize: 18;
+	kerning: off;
+	lineHeight: 10;
+}
+
+.bannerText
+{
+	fontFamily: ArnoPro;
+	fontSize: 16;
+	color: #000000;
+	kerning:on;
+	lineHeight: 80;
+}

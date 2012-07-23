@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:mx="library://ns.adobe.com/flex/mx" autoDrawBackground="false">
+	<s:states>
+		<s:State name="normal"/>
+	</s:states>
+	<s:RichText color="#000000" fontFamily="ArialMT" fontSize="12" kerning="off" lineHeight="85.7%" text="{data.text1}" textDecoration="underline" trackingRight="-5%"  whiteSpaceCollapse="preserve" ></s:RichText>
+	<s:RichText color="#000000" fontFamily="Times New Roman" fontSize="14" height="99" kerning="off" lineHeight="100%"  text="{data.text2}" trackingRight="0%"  whiteSpaceCollapse="preserve" width="321" x="0" y="40"></s:RichText>
+	<mx:Image maintainAspectRatio="false" smoothBitmapContent="true" source="{data.image1}" x="237" y="0"/>
+	<mx:Image maintainAspectRatio="false" smoothBitmapContent="true" source="{data.image2}" x="224" y="0"/>
+	<mx:Image maintainAspectRatio="false" smoothBitmapContent="true" source="{data.image3}" x="213" y="0"/>
+	<mx:Image maintainAspectRatio="false" smoothBitmapContent="true" source="{data.image4}" x="202" y="0"/>
+	<mx:Image maintainAspectRatio="false" smoothBitmapContent="true" source="{data.image5}" x="190" y="0"/>
+	
+</s:ItemRenderer>

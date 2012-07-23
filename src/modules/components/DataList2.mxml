@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009">
+	<fx:Metadata>[HostComponent("spark.components.List")]</fx:Metadata>
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<s:Scroller>
+		<s:DataGroup id="dataGroup" height="400" itemRenderer="modules.components.IRender.RepeatedItem2" >
+			<s:layout>
+				<s:VerticalLayout horizontalAlign="left"/>
+			</s:layout>
+		</s:DataGroup>
+	</s:Scroller>
+</s:Skin>

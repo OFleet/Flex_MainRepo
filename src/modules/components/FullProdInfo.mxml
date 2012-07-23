@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer  xmlns:fx="http://ns.adobe.com/mxml/2009"
+					xmlns:s="library://ns.adobe.com/flex/spark"
+					xmlns:mx="library://ns.adobe.com/flex/mx"
+					backgroundAlpha="0.9" borderAlpha="1.0"
+					contentBackgroundAlpha="1.0" cornerRadius="12" dropShadowVisible="true"
+					textAlign="left" creationComplete="init()" mouseDownOutside="bordercontainer1_mouseDownOutsideHandler(event)">
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	<fx:Declarations>
+		<s:NumberValidator id="numValidator" source="{quantTextInput}" property="text" allowNegative="false" minValue="1" maxValue="99" trigger="{orderButton}" triggerEvent="click" domain="int" negativeError="negative value" valid="addToCart_Handler();" invalid="numValidator_invalidHandler(event)"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[			
+			import modules.components.UserCommentsWindow;
+			
+			import mx.collections.XMLListCollection;
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.events.FlexMouseEvent;
+			import mx.events.ValidationResultEvent;
+			import mx.managers.PopUpManager;
+			
+			import spark.components.Panel;
+			import spark.events.TextOperationEvent;
+			
+			public var pz:Object= null;
+			
+			
+			private function init():void
+			{}
+			
+			
+			public function init1():void
+			{
+				quantTextInput.text="1";
+				spin.value=1;
+				prodImageFull.source="http://192.168.1.103/Images/Products/"+pz.productList.selectedItem.Image;
+				
+				totalSumm.text = pz.productList.selectedItem.Price +' руб.';
+				productName.text = pz.productList.selectedItem.ProductName;
+				manufacturer.text=pz.productList.selectedItem.Manufacturer;
+				description.text=pz.productList.selectedItem.Description;
+				articul.text='Артикул: '+ pz.productList.selectedItem.ArtNumber;
+			}	
+
+			private function addToCart_Handler():void
+			{
+				var itemToUpdate:XMLList =	pz.shoppingCartXML.product.(ProductID ==	pz.productList.selectedItem.ProductID);
+				var newItem:XML = new XML();
+				newItem = <product>
+					{pz.productList.selectedItem.ProductID},
+				{pz.productList.selectedItem.ProductName},
+				{pz.productList.selectedItem.Price},
+				<QuantInCart>{quantTextInput.text}</QuantInCart>,
+				{pz.productList.selectedItem.SmImage}
+				</product>;	
+				if(itemToUpdate.length() > 0)
+				{
+					itemToUpdate.QuantInCart=(quantTextInput.text);
+				}
+				else
+				{									
+					pz.shoppingCartXML.appendChild(newItem);
+				}
+				pz.myFullCart = new	XMLListCollection(pz.shoppingCartXML.children());
+				
+				dispatchEvent(new Event(Event.CLOSE));
+				PopUpManager.removePopUp(this);
+				pz.window.enabled=true;
+				pz.calcSumm();
+			}
+			private function quantTextInput_changeHandler(event:TextOperationEvent):void
+			{
+				var summ:Number = pz.productList.selectedItem.Price;
+				var getNumber:Number = Number(quantTextInput.text);
+				var printNumber:Number = getNumber * summ;
+				totalSumm.text=printNumber.toString()+' руб.';
+				spin.value=getNumber;								
+			}
+			private function spin_changeHandler(event:Event):void
+			{	quantTextInput.text = spin.value.toString();
+				var summ:Number = pz.productList.selectedItem.Price;
+				var getNumber:Number = Number(quantTextInput.text);
+				var printNumber:Number = getNumber * summ;
+				totalSumm.text=printNumber.toString()+' руб.';
+			}
+			private var commWindow:Panel;
+			private function commentWindow_clickHandler(event:MouseEvent):void{
+				commWindow = PopUpManager.createPopUp(parent,
+					UserCommentsWindow, true) as Panel;
+				PopUpManager.centerPopUp(commWindow);
+				//closeButton.enabled=false;
+			}
+			private function bordercontainer1_mouseDownOutsideHandler(event:FlexMouseEvent):void
+			{
+				dispatchEvent(new Event(Event.CLOSE));
+				PopUpManager.removePopUp(this);
+			}
+			private function numValidator_invalidHandler(event:ValidationResultEvent):void
+			{
+				Alert.show("Неверное колличество товара");
+			}
+		]]>
+	</fx:Script>
+	<s:BitmapImage id="prodImageFull" left="15" top="15" width="180" height="300"
+				   scaleMode="letterbox" smooth="true"/>
+	<s:VGroup left="210" right="150" top="15" bottom="40" gap="10" paddingLeft="5" paddingTop="20">
+		<s:Label id="productName" color="#000000" fontFamily="ArialMT" fontSize="20"
+				 fontWeight="bold" kerning="off" lineHeight="85.7%"
+				 trackingRight="-5%"/>
+		<s:HGroup>
+			<s:Label color="#000000" fontFamily="ArialMT" fontSize="16" fontWeight="bold"
+					 kerning="off" lineHeight="85.7%" text="Производитель:" trackingRight="-5%"
+					 verticalAlign="middle"/>
+			<s:Label id="manufacturer" color="#000000" fontFamily="ArialMT" fontSize="16"
+					 fontWeight="bold" kerning="off" lineHeight="85.7%"
+					 trackingRight="-5%"/>
+		</s:HGroup>
+		<s:VGroup>
+			<s:Label color="#000000" fontFamily="ArialMT" fontSize="14"  kerning="off" lineHeight="85.7%" trackingRight="-5%" text="Описание Товара:"/>
+			<mx:Text id="description" width="393" color="#000000" fontFamily="Arial" fontSize="12" textAlign="left"/>
+		</s:VGroup>
+	</s:VGroup>
+	<s:Label id="totalSumm" right="200" bottom="10" color="#000000" fontFamily="ArialMT" fontSize="18" kerning="off" lineHeight="66.65%"  />
+	<s:VGroup right="130" bottom="8" height="24">
+		<s:Spinner id="spin" minimum="1" maximum="99" change="spin_changeHandler(event)" skinClass="modules.components.UIControls.MySpinner"/>			
+	</s:VGroup>
+	<s:VGroup right="10" bottom="8" height="24">
+		<s:Button id="orderButton"  skinClass="modules.components.UIControls.WANTButton" />
+	</s:VGroup>
+	<s:Label id="articul" left="60" bottom="10" color="#000000" fontFamily="Arial" fontSize="12" kerning="off" lineHeight="100%" text="Артикул:"/>			
+	<s:HGroup right="40" top="10" gap="-12">
+		<s:BitmapImage id="bitmapimage9" smooth="true" source="@Embed('/assets/images/Window/Star1.png')" />
+		<s:BitmapImage id="bitmapimage7" smooth="true" source="@Embed('/assets/images/Window/Star1.png')" />
+		<s:BitmapImage id="bitmapimage8" smooth="true" source="@Embed('/assets/images/Window/Star1.png')" />
+		<s:BitmapImage id="bitmapimage6" smooth="true" source="@Embed('/assets/images/Window/StarGray.png')" />
+		<s:BitmapImage id="bitmapimage5" smooth="true" source="@Embed('/assets/images/Window/StarGray.png')" />
+	</s:HGroup>
+	<s:TextInput id="quantTextInput" right="160" bottom="10" restrict="0-9" 
+				 width="32" height="20" color="#000000"
+				 fontSize="14" maxChars="2" text="1" change="quantTextInput_changeHandler(event)"/>
+	<mx:LinkButton id="commentWindow" left="530" top="20" label="Отзывы"
+				   click="commentWindow_clickHandler(event)" color="#A20F0F" fontSize="14"
+				   rollOverColor="#DADADA" selectionColor="#BABABA"/>
+</s:BorderContainer>

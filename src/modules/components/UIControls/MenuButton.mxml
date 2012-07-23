@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009">
+	<fx:Metadata>[HostComponent("spark.components.Button")]</fx:Metadata>
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<fx:DesignLayer>
+		<s:BitmapImage smooth="true" source="@Embed('/assets/images/Window/MenuButtonDown.png')"/>
+		<s:BitmapImage smooth="true" source="@Embed('/assets/images/Window/MenuButtonUp.png')" visible.over="false"/>
+		<s:RichText id="labelDisplay" left="2" top="4" width="124" height="52" styleName="MenuBtn"
+					verticalAlign="middle"
+					left.down="2" top.down="5"/>
+	</fx:DesignLayer>
+	
+</s:Skin>

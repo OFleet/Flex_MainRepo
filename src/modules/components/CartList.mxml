@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:fx="http://ns.adobe.com/mxml/2009"
+		width="370" mouseOut="skin1_mouseOutHandler(event)"
+		mouseOver="skin1_mouseOverHandler(event)">
+	<fx:Metadata>
+		[HostComponent("spark.components.List")]
+	</fx:Metadata>	
+	<fx:Declarations>
+		<s:Fade id="fadeIn" alphaFrom="0" alphaTo="0.5" duration="800" startDelay="200" />		
+		<s:Fade id="fadeOut" alphaFrom="0.5" alphaTo="0" duration="800" startDelay="200" />
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			protected function skin1_mouseOverHandler(event:MouseEvent):void
+			{
+				fadeIn.play([arR,arL]);				
+			}
+			
+			protected function skin1_mouseOutHandler(event:MouseEvent):void
+			{
+				fadeOut.play([arR,arL]);				
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="disabled"/>
+	</s:states>	
+	<s:BitmapImage id="arR"  x="332" y="66" alpha="0" smooth="true" source="@Embed('/assets/images/Window/Arrow.png')"/>
+	<s:BitmapImage id="arL"  x="25" y="192" alpha="0" rotationZ="180" smooth="true" source="@Embed('/assets/images/Window/Arrow.png')"/>
+	<s:BitmapImage x="17" y="0" smooth="true" source="@Embed('/assets/images/Window/Cart.png')"/>
+	<s:DataGroup id="dataGroup" x="52" y="27" width="239" height="157" clipAndEnableScrolling="true" disabledAlpha="1"
+				 itemRenderer="modules.components.IRender.ItemRenderer2">
+		<s:layout>
+			<s:HorizontalLayout horizontalAlign="left" gap="-40" verticalAlign="bottom"/>
+		</s:layout>
+	</s:DataGroup>	
+	<s:BitmapImage x="17" y="14" smooth="true" source="@Embed('/assets/images/Window/Cart1Layer.png')"/>
+	
+	
+	
+	
+</s:Skin>
+

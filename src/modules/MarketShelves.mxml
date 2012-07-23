@@ -1,0 +1,344 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<s:Module xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  xmlns:components="components.*"
+		  xmlns:modules="modules.*"
+		  width="1280" height="873" creationComplete="init();">
+	<fx:Declarations>
+		<s:Fade id="fadeIn" effectStart="{PopUpManager.addPopUp(smPopUp, this, false)}" alphaFrom="0" alphaTo="0.8" duration="400"/>		
+		<s:Fade id="fadeOut" alphaFrom="0.8" alphaTo="0" duration="800" startDelay="100"/>
+		<s:XMLListCollection id="collectList"/>
+		<s:XMLListCollection id="menuCollectList"/>
+	</fx:Declarations>
+	<s:states>
+		<s:State name="Default"/>
+		<s:State name="MyCart"/>
+	</s:states>
+	<fx:Script>
+		<![CDATA[
+			import flash.text.engine.FontWeight;
+			
+			import flashx.textLayout.factory.TruncationOptions;
+			
+			import modules.components.FullProdInfo;
+			
+			import mx.collections.Sort;
+			import mx.collections.SortField;
+			import mx.collections.XMLListCollection;
+			import mx.controls.Alert;
+			import mx.controls.Menu;
+			import mx.core.IFlexDisplayObject;
+			import mx.events.CollectionEvent;
+			import mx.events.DragEvent;
+			import mx.events.FlexMouseEvent;
+			import mx.events.IndexChangedEvent;
+			import mx.events.ItemClickEvent;
+			import mx.events.MenuEvent;
+			import mx.managers.DragManager;
+			import mx.managers.PopUpManager;
+			import mx.managers.ToolTipManager;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.HTTPService;
+			import mx.utils.object_proxy;
+			
+			import spark.components.BorderContainer;
+			import spark.components.VScrollBar;
+			import spark.events.IndexChangeEvent;
+			import spark.events.ListEvent;
+			import spark.events.TextOperationEvent;
+			import spark.layouts.BasicLayout;
+			import spark.layouts.supportClasses.DropLocation;
+			//public var getListFromServer:HTTPConnect= new HTTPConnect; 
+			[Bindable]
+			public var shoppingCartXML:XML = new XML(<product></product>);
+			[Bindable]
+			public var myFullCart:XMLListCollection = new XMLListCollection;
+			
+			private function init(evt:Event=null):void{				
+				var service:HTTPService = new HTTPService();    
+				service.method = "POST";
+				service.url="http://192.168.1.103/ProductList.xml";
+				service.resultFormat="e4x";// xml response
+				service.addEventListener(ResultEvent.RESULT, ResultEventListener);
+				service.addEventListener(FaultEvent.FAULT, FaultEventListener);				
+				service.send();
+				productList.addEventListener(ItemClickEvent.ITEM_CLICK, productList_changeHandler);
+				ToolTipManager.showDelay = 1100;				
+			}
+			private function FaultEventListener(evt:FaultEvent):void{
+				Alert.show("Connection Error");
+				//errors
+			}
+			
+			private var sortByName:Sort = new Sort();
+			private var sortByPrice:Sort = new Sort();
+			//public var collectList:XMLListCollection;
+			private function ResultEventListener(evt:ResultEvent):void{
+				var node:XML = evt.result as XML;
+				collectList=new XMLListCollection(node.products.product);				
+				sortByPrice.fields = [new SortField("Price", true, false, true)];
+				sortByName.fields = [new SortField("ProductName", true)];
+				(productList.dataProvider as XMLListCollection).refresh();
+			}
+			private var fullWindow:FullProdInfo;			
+			private function productList_changeHandler(evt:ItemClickEvent):void{
+				//PopUpManager.removePopUp(fullWindow);
+				if(fullWindow==null){
+					fullWindow = PopUpManager.createPopUp(this,
+						FullProdInfo, false) as FullProdInfo;
+					PopUpManager.centerPopUp(fullWindow);
+					fullWindow.pz=this;
+				}else{
+					PopUpManager.addPopUp(fullWindow,this,false);
+				}
+				fullWindow.init1();
+
+			}
+			//parentDocument.appVscroll 
+			private function nameSortButton_clickHandler(event:MouseEvent):void
+			{
+				collectList.sort=sortByName;
+				sortByName.reverse();			
+				collectList.refresh();
+			}
+			private function priceSortButton_clickHandler(event:MouseEvent):void
+			{	
+				collectList.sort=sortByPrice;
+				sortByPrice.reverse();			
+				collectList.refresh();
+			}			
+			private function productList_dragCompleteHandler(event:DragEvent):void
+			{
+				PopUpManager.removePopUp(fullWindow);
+				productList.enabled=true;				
+			}
+			//Создаём попап с названием продукции
+			public var smPopUp:BorderContainer=null;
+			private function productList_itemRollOverHandler(event:ListEvent):void
+			{	
+				if(smPopUp==null){
+					smPopUp = new BorderContainer();
+					var popUpLabel:Label = new Label();
+					//var popUpList:List = new List();
+					popUpLabel.name="lbText";
+					//popUpList.skin = components.
+					popUpLabel.styleName= "popUpText";
+					smPopUp.addElement(popUpLabel);
+					smPopUp.styleName= "popUpBorder";
+				}
+				smPopUp.height= 35;
+				(smPopUp.getElementAt(0)as Label).text=event.item.ProductName;
+				//create popup in FX's
+				fadeIn.play([smPopUp]);	
+				smPopUp.move(parentDocument.mouseX - 10, parentApplication.mouseY + 10);				
+			}
+			
+			private function productList_itemRollOutHandler(event:ListEvent):void
+			{
+				PopUpManager.removePopUp(smPopUp);
+			}
+			
+			private function filterFunc(item:Object):Boolean {
+				if (search.text.length == 0) return true;
+				var f:String = "ig";
+				var wasRegExp:RegExp = new RegExp(search.text, f);			
+				var wasMatch:Boolean = wasRegExp.test(item.ProductName);			
+				return (wasMatch);
+			}			
+			
+			private function search_changeHandler(event:TextOperationEvent):void
+			{
+				(productList.dataProvider as XMLListCollection).filterFunction = filterFunc;
+				(productList.dataProvider as XMLListCollection).refresh();
+				PopUpManager.removePopUp(smPopUp);
+			}
+			
+			private function destList_mouseDownHandler(event:MouseEvent):void
+			{
+				destList.addEventListener(MouseEvent.MOUSE_MOVE, handleMouseMove);
+			}
+			
+			private function handleMouseMove(event:MouseEvent):void
+			{
+				destList.move(tempGroup.mouseX - destList.width/2,destList.y);
+				if (destList.x<-60){
+					destList.move(-60,destList.y);}
+				if (destList.x>950){
+					destList.move(950,destList.y);}
+			}
+			
+			private function destList_mouseOutHandler(event:MouseEvent):void
+			{				
+				destList.removeEventListener(MouseEvent.MOUSE_MOVE, handleMouseMove);				
+			}
+			
+			private function cartList_dragEnterHandler(event:DragEvent):void
+			{
+				event.preventDefault();
+				var myDragTarget:List=event.currentTarget as List;
+				DragManager.acceptDragDrop(myDragTarget);				
+			}
+			
+			private function cartList_dragOverHandler(event:DragEvent):void
+			{
+				var myDropTarget:List=List(event.currentTarget);
+				var pos:DropLocation=this.cartList.layout.calculateDropLocation(event);
+				DragManager.showFeedback(DragManager.COPY);
+				myDropTarget.createDropIndicator();
+				myDropTarget.layout.showDropIndicator(pos);				
+			}
+			
+			private function cartList_dragDropHandler(event:DragEvent):void
+			{			
+				var itemToUpdate:XMLList =	shoppingCartXML.product.(ProductID == productList.selectedItem.ProductID);
+				var myDropTarget:List=List(event.currentTarget);
+				var newItem:XML = new XML();
+				newItem = <product>
+					{productList.selectedItem.ProductID},
+				{productList.selectedItem.ProductName},
+				{productList.selectedItem.Price},
+				<QuantInCart>1</QuantInCart>,
+				{productList.selectedItem.SmImage}
+				</product>;	
+				if(itemToUpdate.length() > 0)
+				{
+					itemToUpdate.QuantInCart++;
+				}
+				else
+				{									
+					shoppingCartXML.appendChild(newItem);
+				}
+				myFullCart = new XMLListCollection(shoppingCartXML.children());
+				myDropTarget.destroyDropIndicator();
+				calcSumm();
+			}
+			
+			private function searhButton_clickHandler(event:MouseEvent):void
+			{
+				///////////////////
+			}
+			
+			private function button1_clickHandler(event:MouseEvent):void
+			{
+				currentState="MyCart";
+				window.enabled=false;
+				
+			}
+			
+			private function cartClsBtn_clickHandler(event:MouseEvent):void
+			{
+				currentState="Default";
+				window.enabled=true;				
+			}
+			
+			public function calcSumm():void 
+			{				
+				var sum:int = 0;				
+				for each (var items:XML in myFullCart)
+				{
+					sum += items.Price * items.QuantInCart;
+				}			
+				myCartTotalPrice.text=sum.toString()+' р.';
+				ttlPrice.text=sum.toString()+' р.';}			
+			
+			private function catMenu_itemClickHandler(event:MenuEvent):void
+			{
+				catNameTxt.text=(event.item.@Name);
+			}
+			
+			
+			[Bindable]
+			[Embed('assets/images/Bread.png')]
+			public var breadIcon:Class;
+			
+		]]></fx:Script>
+	
+	<s:VGroup id="window" gap="-1" disabledAlpha="1">
+		<s:Group height="52">
+			<s:BitmapImage smooth="true" source="@Embed('/assets/images/Window/StatusBar.png')"/>
+			<s:HGroup verticalCenter="0" left="515" width="109" gap="-4" verticalAlign="bottom" right="730">
+				<s:Button id="myCartBtn" click="button1_clickHandler(event)" skinClass="modules.components.UIControls.MyCartButton" />
+				<s:Label id="ttlPrice" fontFamily="Gabriola" color="#ffffff" fontSize="20"/>
+			</s:HGroup>
+		</s:Group>
+		<modules:MenuBtns>	</modules:MenuBtns>		
+		<s:Group id="tempGroup">
+			<s:List id="productList" dataProvider="{collectList}" dragEnabled="true" mouseEnabled="false"   focusColor="#FFFFFF"
+					skinClass="modules.components.ProductList"  dragComplete="productList_dragCompleteHandler(event)" itemRollOut="productList_itemRollOutHandler(event)" itemRollOver="productList_itemRollOverHandler(event)" >	
+			</s:List>
+			<s:VGroup id="destList" buttonMode="true" mouseDown="destList_mouseDownHandler(event)"
+					  mouseOut="destList_mouseOutHandler(event)"
+					  mouseUp="destList_mouseOutHandler(event)"
+					  right="0" bottom="0">		
+				<s:List dataProvider="{myFullCart}" id="cartList"  dragEnter="cartList_dragEnterHandler(event)"  dragOver="cartList_dragOverHandler(event)"  dragDrop="cartList_dragDropHandler(event)" skinClass="modules.components.CartList"  mouseOver="{cartList.dataGroup.enabled = false}" mouseOut="{cartList.dataGroup.enabled = true}" />
+			</s:VGroup>
+		</s:Group>
+	</s:VGroup>
+	<s:BitmapImage left="127" smooth="true" source="@Embed('/assets/images/Window/Separator.png')"/>
+	<s:HGroup left="22" right="25" top="13" height="28" gap="6" verticalAlign="middle">
+		<s:VGroup gap="-2">
+			<s:Label styleName="topLabels" text="Сортировка:"/>	
+			<s:BitmapImage width="90" smooth="true" source="@Embed('/assets/images/Window/Stripe.png')"/>	
+		</s:VGroup>
+		<s:Spacer width="12"/>			
+		<s:VGroup gap="-2">
+			<s:ToggleButton id="standartSortButton" label="По рейтингу" skinClass="modules.components.UIControls.ArrowButton"/>
+			<s:BitmapImage width="90" smooth="true" source="@Embed('/assets/images/Window/Stripe.png')"/>
+		</s:VGroup>
+		<s:Spacer width="20"/>
+		<s:VGroup gap="-2">			
+			<s:ToggleButton id="priceSortButton" label="По цене" skinClass="modules.components.UIControls.ArrowButton" click="priceSortButton_clickHandler(event)"/>
+			<s:BitmapImage width="62" smooth="true" source="@Embed('/assets/images/Window/Stripe.png')"/>
+		</s:VGroup>
+		<s:Spacer width="20"/>
+		<s:VGroup gap="-2">			
+			<s:ToggleButton id="nameSortButton" label="По названию" skinClass="modules.components.UIControls.ArrowButton" click="nameSortButton_clickHandler(event)"/>
+			<s:BitmapImage width="98" smooth="true" source="@Embed('/assets/images/Window/Stripe.png')"/>
+		</s:VGroup>	
+		<s:Spacer width="80"/>
+		<s:Label id="catNameTxt" width="300" color="#ffffff" fontFamily="Gabriola" fontSize="24" textAlign="right"/>
+		<s:TextInput id="search" change="search_changeHandler(event)"  width="270" height="26" prompt="Например 'Киндер'" toolTip="А ещё здесь можно отфильтровать содержимое витрины, например по названию"/>		
+		<s:Button id="searhButton" skinClass="modules.components.UIControls.FindButton" click="searhButton_clickHandler(event)"/>		
+	</s:HGroup>
+	<s:Group id="maskGroup" width="540">
+		<s:mask>
+			<s:Group x="0" y="0"
+					 width="1280" height="873">
+				<s:Rect  width="1280" height="873"
+						 x="0" y="0">
+					<s:fill>
+						<s:SolidColor color="#ffffff" />
+					</s:fill>
+				</s:Rect>
+			</s:Group>
+		</s:mask>
+		<s:Group id="myCartGr"
+				 x.Default="1280" y="13"
+				 x.MyCart="428">
+			<s:BitmapImage smooth="true" source="@Embed('/assets/images/MyCart/Back.png')" x="0" y="37"/>
+			<s:BitmapImage x="556" y="-6" smooth="true" source="@Embed('/assets/images/MyCart/MyCart.png')"/>
+			<s:Button id="cartClsBtn" x="773" y="4" skinClass="modules.components.UIControls.CartClBtn"
+					  click.MyCart="cartClsBtn_clickHandler(event)"/>
+			<s:BitmapImage x="510" y="44" smooth="true" source="@Embed('/assets/images/MyCart/Shadow.png')"/>
+			<s:List  id="myCartList" x="19" y="56" enabled="true" skinClass="modules.components.MyCartList" includeIn="MyCart"
+					 tabFocusEnabled="false" dataProvider="{myFullCart}" useVirtualLayout="false"  updateComplete="calcSumm()"/>			
+			<s:BitmapImage x="19" y="53" smooth="true" source="@Embed('/assets/images/MyCart/bar.png')"/>
+			<s:Label x="284" y="777" width="197" height="37" styleName="MyCartText1"
+					 text="Сумма Вашей покупки:" verticalAlign="bottom"/>
+			<s:Label id="myCartTotalPrice" x="489" y="781" width="116" height="37"
+					 styleName="MyCartText2" verticalAlign="bottom" />
+		</s:Group>
+	</s:Group>
+	<mx:Menu id="catMenu" labelField="@Name" iconField="@myicon" showRoot="false"  styleName="catMenuSt" rowHeight="34" itemClick="catMenu_itemClickHandler(event)" />
+	<s:transitions>
+		<s:Transition fromState="Default" toState="MyCart" autoReverse="true">
+			<s:Parallel>
+				<s:Parallel target="{myCartGr}">
+					<s:Move duration="1000" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>				
+			</s:Parallel>
+		</s:Transition>		
+	</s:transitions>	
+</s:Module>

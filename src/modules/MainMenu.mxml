@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<s:Module xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  xmlns:modules="modules.*"
+		  width="100%" currentState="default">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import mx.events.FlexMouseEvent;
+			import spark.events.IndexChangeEvent;
+			
+			private function changeState(event:MouseEvent):void
+			{
+				currentState = currentState == 'default' ? '' : 'default';
+			}
+			private function list2_changeHandler(event:IndexChangeEvent):void
+			{
+				currentState = currentState == 'default' ? '' : 'default';
+			}
+			private function marketTypeList_changeHandler(event:IndexChangeEvent):void
+			{
+				currentState = "eject";
+				myMenuBtn.enabled=true;
+			}
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="eject"/>
+		<s:State name="default"/>
+		<s:State name="ejectTabs"/>
+	</s:states>
+	<s:HGroup horizontalCenter="0" id="curtains" top="0" width="100%"
+			  top.default="-260">
+		<s:BitmapImage  horizontalCenter="0" fillMode="repeat" width="100%" height="100%" source="@Embed('assets/images/curtain.png')"/>	
+	</s:HGroup>
+	<s:Group id="marketListGroup" horizontalCenter="0"
+			 top.default="34" enabled.default="false"
+			 top.eject="6"
+			 top.ejectTabs="254">
+		<s:Rect id="backRectangle" width="1308" height="235" alpha="0.22"
+				height.eject="255">
+			<s:fill >
+				<s:LinearGradient rotation="90" >
+					<s:GradientEntry color="#ffffff"/>
+					<s:GradientEntry color="#8f8f8f"/>
+				</s:LinearGradient>
+			</s:fill>
+			<s:filters>
+				<s:DropShadowFilter alpha="0.9" angle="30" distance="9" blurX="10" blurY="10"/>
+			</s:filters>
+		</s:Rect>
+		<s:List width="1186" change="list2_changeHandler(event)"
+				skinClass="modules.components.marketsDataList"
+				top="45" horizontalCenter="0">
+			<s:ArrayCollection>
+				<fx:Object image="@Embed('/assets/images/Perekrestok.png')"/>
+				<fx:Object image="@Embed('/assets/images/Perekrestok.png')"/>
+				<fx:Object image="@Embed('/assets/images/Perekrestok.png')"/>
+				<fx:Object image="@Embed('/assets/images/Perekrestok.png')"/>
+				<fx:Object image="@Embed('/assets/images/Perekrestok.png')"/>
+				<fx:Object image="@Embed('/assets/images/Perekrestok.png')"/>
+				<fx:Object image="@Embed('/assets/images/Perekrestok.png')"/>
+				<fx:Object image="@Embed('/assets/images/Perekrestok.png')"/>
+				<fx:Object image="@Embed('/assets/images/Perekrestok.png')"/>
+				<fx:Object image="@Embed('/assets/images/Perekrestok.png')"/>
+				<fx:Object image="@Embed('/assets/images/Perekrestok.png')"/>
+			</s:ArrayCollection>
+		</s:List>
+	</s:Group>
+	<s:Rect id="whiteFill" top="252" width="1360" height="200" horizontalCenter="0" radiusX="10"
+			radiusY="10"
+			top.default="34" horizontalCenter.default="0">
+		<s:fill>
+			<s:SolidColor color="#ffffff"/>
+		</s:fill>
+		<s:filters>
+			<s:DropShadowFilter alpha="0.4"  angle="90" blurX="25" blurY="25"/>
+		</s:filters>
+	</s:Rect>
+	<s:Group id="cstmTabB" width="540" horizontalCenter="270" maskType="clip"
+			 top.default="4"
+			 top.eject="225"
+			 top.ejectTabs="4">
+		<s:mask>
+			<s:Group id="maskGr" width="525" height="285"
+					 y.default="-246"
+					 x.eject="0" y.eject="-246"
+					 y.ejectTabs="-23">
+				<s:Rect  width="525" height="285">
+					<s:fill>
+						<s:SolidColor color="#ffffff" />
+					</s:fill>
+				</s:Rect>
+			</s:Group>
+		</s:mask>
+		<s:Group>
+			<modules:CstmTabBar id="cstmTabBar" maskType="clip" >	</modules:CstmTabBar>
+		</s:Group>
+	</s:Group>
+	<s:BitmapImage width="719" alpha="0.5" horizontalCenter="300"
+				   source="@Embed('/assets/images/ShadowLine.png')"
+				   top.default="42"
+				   top.eject="42"
+				   top.ejectTabs="265"/>
+	<s:HGroup id="marketTypeGr" top="14" gap="0" horizontalCenter="0" verticalAlign="bottom"
+			  top.default="14"
+			  top.eject="232"
+			  top.ejectTabs="232">
+		<s:Spacer width="20"/>
+		<s:BitmapImage  source="@Embed('/assets/images/Truck.png')"/>
+		<s:List id="marketTypeList" enabled.ejectTabs="false" change="marketTypeList_changeHandler(event)"
+				skinClass="modules.components.MarketTypeList">
+			<s:ArrayCollection>
+				<fx:Object image="@Embed('/assets/images/Supermarket.png')" text="Супермаркет"/>
+				<fx:Object image="@Embed('/assets/images/Cusine.png')" text="Зарубежная Кухня"/>
+				<fx:Object image="@Embed('/assets/images/Sushi.png')" text="Суши"/>
+				<fx:Object image="@Embed('/assets/images/Burger.png')" text="Фаст-Фуд"/>
+				<fx:Object image="@Embed('/assets/images/Pizza.png')" text="Пицца"/>
+			</s:ArrayCollection>
+		</s:List>
+		<s:BitmapImage  source="@Embed('/assets/images/Ribbon2.png')"/>
+	</s:HGroup>	
+	<s:Button id="myMenuBtn" top="2" buttonMode="true" click="changeState(event)" enabled="false"
+			  horizontalCenter="-262" skinClass="modules.components.UIControls.myMenuBtn" useHandCursor="true"
+			  top.default="27"
+			  top.ejectTabs="246"/>
+	<s:BitmapImage id="grMarketStr" top="222" horizontalCenter="0" smooth="true"
+				   source="@Embed('/assets/images/GrayMarketStripe.png')"
+				   top.eject="440"
+				   top.ejectTabs="440"/>
+	
+	<s:transitions>
+		<s:Transition fromState="default" toState="eject" autoReverse="true">
+			<s:Parallel>
+				<s:Parallel target="{curtains}">
+					<s:Move duration="300" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{marketListGroup}">
+					<s:Move duration="0" autoCenterTransform="true" startDelay="300"/>
+				</s:Parallel>
+				<s:Parallel target="{myMenuBtn}">
+					<s:Move duration="0" autoCenterTransform="true" startDelay="300"/>
+				</s:Parallel>
+				<s:Parallel target="{whiteFill}">
+					<s:Move duration="300" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{cstmTabB}">
+					<s:Move duration="300" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{marketTypeGr}">
+					<s:Move duration="300" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{grMarketStr}">
+					<s:Move duration="300" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>
+			</s:Parallel>
+		</s:Transition>	
+		<s:Transition fromState="default" toState="ejectTabs" autoReverse="true">
+			<s:Parallel>
+				<s:Parallel target="{curtains}">
+					<s:Move duration="300" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{marketListGroup}">
+					<s:Move duration="0" autoCenterTransform="true" startDelay="300"/>
+				</s:Parallel>
+				<s:Parallel target="{myMenuBtn}">
+					<s:Move duration="0" autoCenterTransform="true" startDelay="300"/>
+				</s:Parallel>
+				<s:Parallel target="{whiteFill}">
+					<s:Move duration="300" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{maskGr}">
+					<s:Move duration="230" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{marketTypeGr}">
+					<s:Move duration="300" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{grMarketStr}">
+					<s:Move duration="300" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>
+			</s:Parallel>
+		</s:Transition>
+		<s:Transition fromState="eject" toState="ejectTabs" autoReverse="true">
+			<s:Parallel>
+				<s:Parallel target="{curtains}">
+					<s:Move duration="300" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{marketListGroup}">
+					<s:Move duration="0" autoCenterTransform="true" startDelay="300"/>
+				</s:Parallel>
+				<s:Parallel target="{myMenuBtn}">
+					<s:Move duration="0" autoCenterTransform="true" startDelay="300"/>
+				</s:Parallel>
+				<s:Parallel target="{cstmTabB}">
+					<s:Move duration="300" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>
+			</s:Parallel>
+		</s:Transition>	
+	</s:transitions>
+</s:Module>

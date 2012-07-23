@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="init()">
+<fx:Script>
+	<![CDATA[
+		import mx.events.FlexEvent;
+		import mx.collections.XMLListCollection;
+		import mx.controls.Alert;
+		import mx.controls.Menu;
+		import mx.events.CollectionEvent;
+		import mx.rpc.events.FaultEvent;
+		import mx.rpc.events.ResultEvent;
+		import mx.rpc.http.HTTPService;
+		
+		[Bindable]
+		public var menuGrocery:XMLListCollection = new XMLListCollection;
+		[Bindable]
+		public var menuCanned:XMLListCollection = new XMLListCollection;
+		[Bindable]
+		public var menuTea:XMLListCollection = new XMLListCollection;
+		[Bindable]
+		public var menuMilk:XMLListCollection = new XMLListCollection;
+		[Bindable]
+		public var menuMeat:XMLListCollection = new XMLListCollection;
+		[Bindable]
+		public var menuFish:XMLListCollection = new XMLListCollection;
+		[Bindable]
+		public var menuBaby:XMLListCollection = new XMLListCollection;
+		[Bindable]
+		public var menuChilled:XMLListCollection = new XMLListCollection;
+		[Bindable]
+		public var menuFrozen:XMLListCollection = new XMLListCollection;
+		[Bindable]
+		public var menuVegetables:XMLListCollection = new XMLListCollection;
+		[Bindable]
+		public var menuSalad:XMLListCollection = new XMLListCollection;
+		[Bindable]
+		public var menuEggs:XMLListCollection = new XMLListCollection;
+		[Bindable]
+		public var menuConfectionery:XMLListCollection = new XMLListCollection;
+		[Bindable]
+		public var menuDiet:XMLListCollection = new XMLListCollection;
+		[Bindable]
+		public var menuBread:XMLListCollection = new XMLListCollection;
+		[Bindable]
+		public var menuDrinks:XMLListCollection = new XMLListCollection;
+		[Bindable]
+		public var menuAlcohol:XMLListCollection = new XMLListCollection;
+		[Bindable]
+		public var menuBeer:XMLListCollection = new XMLListCollection;
+		[Bindable]
+		public var menuTobacco:XMLListCollection = new XMLListCollection;
+		
+		private function init():void{
+			var menuService:HTTPService = new HTTPService();    
+			menuService.method = "POST";
+			menuService.url="http://192.168.1.103/ProductMenu.xml";
+			menuService.resultFormat="e4x";// xml response
+			menuService.addEventListener(ResultEvent.RESULT, MenuResultEventListener);
+			menuService.addEventListener(FaultEvent.FAULT, FaultEventListener);				
+			menuService.send();
+		}
+			private function FaultEventListener(evt:FaultEvent):void{
+			Alert.show("Connection Error");
+			//errors
+		}
+		private function MenuResultEventListener(evt:ResultEvent):void{
+			var node:XML = evt.result as XML;
+			menuGrocery=new XMLListCollection(node.TopCategory.(@ID=='001').SecCategory);
+			menuCanned=new XMLListCollection(node.TopCategory.(@ID=='002').SecCategory);
+			menuTea=new XMLListCollection(node.TopCategory.(@ID=='003').SecCategory);
+			menuMilk=new XMLListCollection(node.TopCategory.(@ID=='004').SecCategory);
+			menuMeat=new XMLListCollection(node.TopCategory.(@ID=='005').SecCategory);
+			menuFish=new XMLListCollection(node.TopCategory.(@ID=='006').SecCategory);
+			menuBaby=new XMLListCollection(node.TopCategory.(@ID=='007').SecCategory);
+			menuChilled=new XMLListCollection(node.TopCategory.(@ID=='008').SecCategory);
+			menuFrozen=new XMLListCollection(node.TopCategory.(@ID=='009').SecCategory);
+			menuVegetables=new XMLListCollection(node.TopCategory.(@ID=='010').SecCategory);
+			menuSalad=new XMLListCollection(node.TopCategory.(@ID=='011').SecCategory);
+			menuEggs=new XMLListCollection(node.TopCategory.(@ID=='012').SecCategory);
+			menuConfectionery=new XMLListCollection(node.TopCategory.(@ID=='013').SecCategory);
+			menuDiet=new XMLListCollection(node.TopCategory.(@ID=='014').SecCategory);
+			menuBread=new XMLListCollection(node.TopCategory.(@ID=='015').SecCategory);
+			menuDrinks=new XMLListCollection(node.TopCategory.(@ID=='017').SecCategory);
+			menuAlcohol=new XMLListCollection(node.TopCategory.(@ID=='021').SecCategory);
+			menuBeer=new XMLListCollection(node.TopCategory.(@ID=='022').SecCategory);
+			menuTobacco=new XMLListCollection(node.TopCategory.(@ID=='023').SecCategory);
+		}
+		//Основное меню
+		private function createAndShowMenu():void {
+			parentDocument.catMenu.show(50, 170);
+			parentDocument.catMenu.iconField="@myicon"
+			//parentDocument.catMenu.move(0,mouseY)
+		}
+		protected function grocery_clickHandler(event:MouseEvent):void
+		{parentDocument.catMenu.dataProvider=menuGrocery;
+			createAndShowMenu();
+		}
+		protected function canned_clickHandler(event:MouseEvent):void
+		{parentDocument.catMenu.dataProvider=menuCanned;
+			createAndShowMenu();
+		}
+		protected function meat_clickHandler(event:MouseEvent):void
+		{parentDocument.catMenu.dataProvider=menuMeat;
+			createAndShowMenu();
+		}
+		protected function fish_clickHandler(event:MouseEvent):void
+		{parentDocument.catMenu.dataProvider=menuFish;
+			createAndShowMenu();
+		}
+		protected function chilled_clickHandler(event:MouseEvent):void
+		{parentDocument.catMenu.dataProvider=menuChilled;
+			createAndShowMenu();
+		}
+		protected function eggs_clickHandler(event:MouseEvent):void
+		{parentDocument.catMenu.dataProvider=menuEggs;
+			createAndShowMenu();
+		}
+		protected function milk_clickHandler(event:MouseEvent):void
+		{parentDocument.catMenu.dataProvider=menuMilk;
+			createAndShowMenu();
+		}
+		protected function baby_clickHandler(event:MouseEvent):void
+		{parentDocument.catMenu.dataProvider=menuBaby;
+			createAndShowMenu();
+		}
+		protected function vegetables_clickHandler(event:MouseEvent):void
+		{parentDocument.catMenu.dataProvider=menuVegetables;
+			createAndShowMenu();
+		}
+		protected function tobacco_clickHandler(event:MouseEvent):void
+		{parentDocument.catMenu.dataProvider=menuTobacco;
+			createAndShowMenu();
+		}
+		protected function frozen_clickHandler(event:MouseEvent):void
+		{parentDocument.catMenu.dataProvider=menuFrozen;
+			createAndShowMenu();
+		}
+		protected function confectionery_clickHandler(event:MouseEvent):void
+		{parentDocument.catMenu.dataProvider=menuConfectionery;
+			createAndShowMenu();
+		}
+		protected function bread_clickHandler(event:MouseEvent):void
+		{parentDocument.catMenu.dataProvider=menuBread;
+			createAndShowMenu();
+		}
+		protected function salad_clickHandler(event:MouseEvent):void
+		{parentDocument.catMenu.dataProvider=menuSalad;
+			createAndShowMenu();
+		}
+		protected function alcohol_clickHandler(event:MouseEvent):void
+		{parentDocument.catMenu.dataProvider=menuAlcohol;
+			createAndShowMenu();
+		}
+		protected function Beer_clickHandler(event:MouseEvent):void
+		{parentDocument.catMenu.dataProvider=menuBeer;
+			createAndShowMenu();
+		}
+		protected function drinks_clickHandler(event:MouseEvent):void
+		{parentDocument.catMenu.dataProvider=menuDrinks;
+			createAndShowMenu();
+		}
+		protected function tea_clickHandler(event:MouseEvent):void
+		{parentDocument.catMenu.dataProvider=menuTea;
+			createAndShowMenu();
+		}
+		protected function diet_clickHandler(event:MouseEvent):void
+		{parentDocument.catMenu.dataProvider=menuDiet;
+			createAndShowMenu();
+		}
+		protected function news_clickHandler(event:MouseEvent):void
+		{
+			//createAndShowMenu();
+		}
+	]]>
+</fx:Script>	
+	<s:VGroup gap="0">	
+		<s:HGroup   gap="0" horizontalAlign="left">
+			<s:Button id="grocery" label="Бакалея" skinClass="modules.components.UIControls.MenuButton" click="grocery_clickHandler(event)"/>
+			<s:Button id="canned" label="Консервы" skinClass="modules.components.UIControls.MenuButton" click="canned_clickHandler(event)"/>
+			<s:Button id="meat" label="Мясные продукты" skinClass="modules.components.UIControls.MenuButton" click="meat_clickHandler(event)"/>
+			<s:Button id="fish" label="Рыбные продукты" skinClass="modules.components.UIControls.MenuButton" click="fish_clickHandler(event)"/>
+			<s:Button id="chilled" label="Охлаждённые мясо, рыба, птица" skinClass="modules.components.UIControls.MenuButton" click="chilled_clickHandler(event)"/>
+			<s:Button id="eggs" label="Яйцо" skinClass="modules.components.UIControls.MenuButton" click="eggs_clickHandler(event)"/>
+			<s:Button id="milk" label="Молочные продукты" skinClass="modules.components.UIControls.MenuButton" click="milk_clickHandler(event)"/>
+			<s:Button id="baby" label="Детское питание" skinClass="modules.components.UIControls.MenuButton" click="baby_clickHandler(event)"/>
+			<s:Button id="vegetables" label="Овощи, фрукты, зелень, грибы" skinClass="modules.components.UIControls.MenuButton" click="vegetables_clickHandler(event)"/>
+			<s:Button id="tobacco" label="Табак, табачные изделия" skinClass="modules.components.UIControls.MenuButton" click="tobacco_clickHandler(event)"/>
+		</s:HGroup>
+		<s:HGroup  gap="0" horizontalAlign="left">
+			<s:Button id="frozen" label="Замороженные продукты" skinClass="modules.components.UIControls.MenuButton" click="frozen_clickHandler(event)"/>
+			<s:Button id="confectionery" label="Кондитерские изделия" skinClass="modules.components.UIControls.MenuButton" click="confectionery_clickHandler(event)"/>
+			<s:Button id="bread" label="Хлебобулочные изделия" skinClass="modules.components.UIControls.MenuButton" click="bread_clickHandler(event)"/>
+			<s:Button id="salad" label="Салаты, кулинарные изделия" skinClass="modules.components.UIControls.MenuButton" click="salad_clickHandler(event)"/>
+			<s:Button id="alcohol" label="Алкоголь" skinClass="modules.components.UIControls.MenuButton" click="alcohol_clickHandler(event)"/>
+			<s:Button id="Beer" label="Пиво, слабоалкогольные напитки" skinClass="modules.components.UIControls.MenuButton" click="Beer_clickHandler(event)"/>
+			<s:Button id="drinks" label="Соки, напитки" skinClass="modules.components.UIControls.MenuButton" click="drinks_clickHandler(event)"/>
+			<s:Button id="tea" label="Чай, кофе, какао" skinClass="modules.components.UIControls.MenuButton" click="tea_clickHandler(event)"/>
+			<s:Button id="diet" label="Диабетические, диетические продукты" skinClass="modules.components.UIControls.MenuButton" click="diet_clickHandler(event)"/>
+			<s:Button id="news" label="Новинки" skinClass="modules.components.UIControls.MenuButton" click="news_clickHandler(event)"/>
+		</s:HGroup>
+	</s:VGroup>	
+</s:Group>

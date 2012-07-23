@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				autoDrawBackground="false" 
+				xmlns:mx="library://ns.adobe.com/flex/mx">
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="hovered"/>
+		<s:State name="selected"/>
+	</s:states>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.XMLListCollection;
+			import mx.events.FlexEvent;
+			import spark.events.TextOperationEvent;
+						
+			private function quantTextInput_changeHandler(event:TextOperationEvent):void
+			{	
+				var summ:Number = data.Price;				
+				var getNumber:Number = Number(quantTextInput.text);
+				var printNumber:Number = getNumber * summ;				
+				spin.value=getNumber;
+				data.QuantInCart=(quantTextInput.text);
+				totalSumm.text=printNumber.toString()+' руб.';
+				parentDocument.parentDocument.calcSumm();
+			}
+			private function spin_changeHandler(event:Event):void
+			{					
+				var summ:Number = data.Price;
+				var printNumber:Number;
+				quantTextInput.text = spin.value.toString();
+				data.QuantInCart=spin.value;
+				printNumber = data.QuantInCart * summ;
+				totalSumm.text=printNumber.toString()+' руб.';					
+				parentDocument.parentDocument.calcSumm();
+			}
+			
+			private function deleteItem_clickHandler(event:MouseEvent):void
+			{
+				parentDocument.parentDocument.myFullCart.removeItemAt(parentDocument.parentDocument.myCartList.selectedIndex);
+			}
+			
+		]]>
+	</fx:Script>
+	<s:BorderContainer id="bCon" borderVisible="false" width="820" height="113">	
+		<s:layout>
+			<s:BasicLayout/>
+		</s:layout>
+	<s:BitmapImage left="26" top="3" width="107" height="107" scaleMode="letterbox" smooth="true"
+				   source="http://192.168.1.103/Images/Products/{data.SmImage}"
+				   verticalAlign="bottom"/>	
+	<mx:Image maintainAspectRatio="false" smoothBitmapContent="true"
+			  source="@Embed('/assets/images/MyCart/Separator.png')"/>	
+		<s:Button id="deleteItem" left="3" skinClass="modules.components.UIControls.TrashButton" verticalCenter="0" click="deleteItem_clickHandler(event)"/>
+		<s:Label left="120" top="2" bottom="2" width="180" fontFamily="Arial" fontSize="14"
+				 fontWeight="bold" text="{data.ProductName}" textAlign="center"
+				 verticalAlign="middle"/>
+		<s:Label id="price" left="308" width="77" fontFamily="Arial" fontSize="14"
+				 fontWeight="bold" text="{data.Price} руб." textAlign="center" verticalCenter="0"/>		
+		<s:HGroup left="405" gap="0" verticalAlign="middle" verticalCenter="0">
+			<s:TextInput id="quantTextInput" width="32" height="22"
+						 change="quantTextInput_changeHandler(event)" color="#000000" fontSize="14"
+						 maxChars="2" restrict="0-9" text="{data.QuantInCart}"/>				
+		<s:VGroup>			
+			<s:Spinner value="{data.QuantInCart}" id="spin" minimum="1" maximum="99" change="spin_changeHandler(event)" skinClass="modules.components.UIControls.MySpinner"/>				
+		</s:VGroup>
+		</s:HGroup>
+		<s:Label id="totalSumm" left="480" width="77" fontFamily="Arial" fontSize="14"
+				 fontWeight="bold" text="{data.QuantInCart * data.Price} руб." textAlign="center" verticalCenter="0"/>		
+			<s:TextArea id="addNote" right="6" top="4" width="241" height="80" fontSize="12"
+						 prompt="Здесь Вы можете добавить своё примичание и пожелание по комплектации товара."/>	
+		<mx:Image right="2" bottom="2" maintainAspectRatio="false" smoothBitmapContent="true"
+				  source="@Embed('/assets/images/MyCart/Plus.png')"/>
+	</s:BorderContainer>	
+	
+</s:ItemRenderer>

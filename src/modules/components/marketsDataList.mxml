@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009">
+	<fx:Metadata>[HostComponent("spark.components.List")]</fx:Metadata>
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<s:DataGroup id="dataGroup" width="1186" height="181" clipAndEnableScrolling="true" horizontalCenter="0" itemRenderer="modules.components.IRender.marketCard" verticalCenter="0">
+		<s:layout>
+			<s:HorizontalLayout gap="2"/>
+		</s:layout>
+	</s:DataGroup>
+	<s:HScrollBar horizontalCenter="0" skinClass="modules.components.UIControls.marketHorScroll" verticalCenter="0"
+				  viewport="{dataGroup}"/>
+</s:Skin>

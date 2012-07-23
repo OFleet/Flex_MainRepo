@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<s:Module xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  width="342" height="277">
+	<fx:Script>
+		<![CDATA[
+			protected function mainGr_mouseOverHandler(event:MouseEvent):void
+			{
+				currentState='selected';
+			}
+			protected function mainGr_mouseOutHandler(event:MouseEvent):void
+			{
+				currentState='defaultSt';
+			}
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="defaultSt"/>
+		<s:State name="selected"/>
+	</s:states>
+	<s:Group  id="mainGr" width="313" horizontalCenter="0" buttonMode="true" mouseOver="mainGr_mouseOverHandler(event)" mouseOut="mainGr_mouseOutHandler(event)">
+		<s:BitmapImage bottom="76" horizontalCenter="0" smooth="true"
+					   source="@Embed('/assets/images/BProduct.png')"/>
+		<s:Group alpha.defaultSt="0" id="aboutGr" horizontalCenter="0" verticalCenter="-5">
+			<s:Rect alpha="0.3" width="301" height="228">
+				<s:fill>
+					<s:SolidColor color="#000000"/>
+				</s:fill>
+			</s:Rect>
+		</s:Group>
+		<s:BitmapImage smooth="true" source="@Embed('/assets/images/BannerFrame.png')"/>
+		<s:BitmapImage right="6" top="6" smooth="true" source="@Embed('/assets/images/RRibbon.png')"/>
+		<s:RichText right="21" top="21" styleName="bannerText" color="#ffffff" rotation="45" whiteSpaceCollapse="preserve" text="-50%"/>
+		<s:Group left="16" top="16">
+			<s:Rect height="100%" width="100%" alpha="0.05" radiusX="10">
+				<s:fill>
+					<s:SolidColor color="#000000"/>
+				</s:fill>
+			</s:Rect>
+			<s:RichText styleName="bannerText" text="16:45:03"/>
+		</s:Group>
+		<s:RichText bottom="34" width="293" styleName="bannerText" horizontalCenter="0"
+					text="Каша FRISO рисовая с детской молочной смесью с 4-х месяцев" textAlign="center"
+					whiteSpaceCollapse="preserve" lineHeight="80%"/>
+		<s:RichText bottom="6" styleName="bannerText"
+					horizontalCenter="0" text="Супермаркет  ПЕРЕКРЁСТОК"/>
+	</s:Group>
+	<s:BitmapImage bottom="0" alpha="0.07" smooth="true"
+				   source="@Embed('/assets/images/Scotch.png')"/>
+</s:Module>

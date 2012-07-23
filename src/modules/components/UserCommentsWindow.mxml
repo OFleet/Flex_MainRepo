@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Panel xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 
+		 width="360" height="700" backgroundAlpha="0.9" contentBackgroundAlpha="1.0"
+		 cornerRadius="12" dropShadowVisible="true" skinClass="spark.skins.spark.PanelSkin"
+		 title="Каша Быстров">
+	
+	
+	
+	
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.managers.PopUpManager;
+			import mx.events.FlexEvent;
+			
+			protected function cancelButton_clickHandler(event:MouseEvent):void
+			{
+				dispatchEvent(new Event(Event.CLOSE));
+				PopUpManager.removePopUp(this);
+			}
+		]]>
+	</fx:Script>
+	
+	<s:RichText color="#ffffff" fontFamily="Impact" fontSize="18" kerning="off" lineHeight="66.65%" trackingRight="-5%"  visible="false" whiteSpaceCollapse="preserve">
+		<s:content><s:p><s:span baselineShift="1">ДОБАВИТЬ</s:span></s:p></s:content>
+	</s:RichText>
+	<s:RichText color="#ffffff" fontFamily="Impact" fontSize="18" kerning="off" lineHeight="66.65%" trackingRight="-5%"  whiteSpaceCollapse="preserve" x="796" y="771">
+		<s:content><s:p><s:span baselineShift="1">ДОБАВИТЬ</s:span></s:p></s:content>
+	</s:RichText>
+	<s:RichText left="10" bottom="210" color="#000000" fontFamily="ArialMT" fontSize="16"
+				kerning="off" lineHeight="75%" trackingRight="-5%" whiteSpaceCollapse="preserve">
+		<s:content><s:p><s:span baselineShift="1">Ваш коментарий:</s:span></s:p></s:content>
+	</s:RichText>
+	
+	
+	<s:HGroup right="20" gap="-10">			
+		<s:BitmapImage  smooth="true" source="@Embed('/assets/images/Window/Star4.png')"  />
+		<s:BitmapImage  smooth="true" source="@Embed('/assets/images/Window/Star4.png')" />
+		<s:BitmapImage  smooth="true" source="@Embed('/assets/images/Window/Star4.png')" />
+		<s:BitmapImage  smooth="true" source="@Embed('/assets/images/Window/Star4.png')" />
+		<s:BitmapImage  smooth="true" source="@Embed('/assets/images/Window/StarGray7.png')"/>
+	</s:HGroup>
+	<s:List id="list1" left="20" right="20" top="30" height="400" 
+			skinClass="modules.components.DataList2" verticalScrollPolicy="auto">
+		
+		<s:ArrayCollection>
+			<fx:Object image1="@Embed('/assets/images/Window/StarGray8.png')" image2="@Embed('/assets/images/Window/Star8.png')" image3="@Embed('/assets/images/Window/Star9.png')" image4="@Embed('/assets/images/Window/Star10.png')" image5="@Embed('/assets/images/Window/Star11.png')" text1="Иван Петров (12 мая 2011г.):" text2="Очень уютный и подходящий интерьер для деловых  встреч, вечернего ужина; здесь я отведал  наивкуснейшие бараньи ребра на мангале; а моя  супруга душу продаст за салат &quot;Цезарь с курицей&quot;.  В общем говорить тут нечего, я стал постоянным  клиентом!!! "/>
+			<fx:Object image1="@Embed('/assets/images/Window/StarGray8.png')" image2="@Embed('/assets/images/Window/Star8.png')" image3="@Embed('/assets/images/Window/Star9.png')" image4="@Embed('/assets/images/Window/Star10.png')" image5="@Embed('/assets/images/Window/Star11.png')" text1="Иван Петров (12 мая 2011г.):" text2="Очень уютный и подходящий интерьер для деловых  встреч, вечернего ужина; здесь я отведал  наивкуснейшие бараньи ребра на мангале; а моя  супруга душу продаст за салат &quot;Цезарь с курицей&quot;.  В общем говорить тут нечего, я стал постоянным  клиентом!!! "/>
+			<fx:Object image1="@Embed('/assets/images/Window/StarGray8.png')" image2="@Embed('/assets/images/Window/Star8.png')" image3="@Embed('/assets/images/Window/Star9.png')" image4="@Embed('/assets/images/Window/Star10.png')" image5="@Embed('/assets/images/Window/Star11.png')" text1="Иван Петров (12 мая 2011г.):" text2="Очень уютный и подходящий интерьер для деловых  встреч, вечернего ужина; здесь я отведал  наивкуснейшие бараньи ребра на мангале; а моя  супруга душу продаст за салат &quot;Цезарь с курицей&quot;.  В общем говорить тут нечего, я стал постоянным  клиентом!!! "/>
+			<fx:Object image1="@Embed('/assets/images/Window/StarGray8.png')" image2="@Embed('/assets/images/Window/Star8.png')" image3="@Embed('/assets/images/Window/Star9.png')" image4="@Embed('/assets/images/Window/Star10.png')" image5="@Embed('/assets/images/Window/Star11.png')" text1="Иван Петров (12 мая 2011г.):" text2="Очень уютный и подходящий интерьер для деловых  встреч, вечернего ужина; здесь я отведал  наивкуснейшие бараньи ребра на мангале; а моя  супруга душу продаст за салат &quot;Цезарь с курицей&quot;.  В общем говорить тут нечего, я стал постоянным  клиентом!!! "/>
+			<fx:Object image1="@Embed('/assets/images/Window/StarGray8.png')" image2="@Embed('/assets/images/Window/Star8.png')" image3="@Embed('/assets/images/Window/Star9.png')" image4="@Embed('/assets/images/Window/Star10.png')" image5="@Embed('/assets/images/Window/Star11.png')" text1="Иван Петров (12 мая 2011г.):" text2="Очень уютный и подходящий интерьер для деловых  встреч, вечернего ужина; здесь я отведал  наивкуснейшие бараньи ребра на мангале; а моя  супруга душу продаст за салат &quot;Цезарь с курицей&quot;.  В общем говорить тут нечего, я стал постоянным  клиентом!!! "/>
+			<fx:Object image1="@Embed('/assets/images/Window/StarGray8.png')" image2="@Embed('/assets/images/Window/Star8.png')" image3="@Embed('/assets/images/Window/Star9.png')" image4="@Embed('/assets/images/Window/Star10.png')" image5="@Embed('/assets/images/Window/Star11.png')" text1="Иван Петров (12 мая 2011г.):" text2="Очень уютный и подходящий интерьер для деловых  встреч, вечернего ужина; здесь я отведал  наивкуснейшие бараньи ребра на мангале; а моя  супруга душу продаст за салат &quot;Цезарь с курицей&quot;.  В общем говорить тут нечего, я стал постоянным  клиентом!!! "/>
+			<fx:Object image1="@Embed('/assets/images/Window/StarGray8.png')" image2="@Embed('/assets/images/Window/Star8.png')" image3="@Embed('/assets/images/Window/Star9.png')" image4="@Embed('/assets/images/Window/Star10.png')" image5="@Embed('/assets/images/Window/Star11.png')" text1="Иван Петров (12 мая 2011г.):" text2="Очень уютный и подходящий интерьер для деловых  встреч, вечернего ужина; здесь я отведал  наивкуснейшие бараньи ребра на мангале; а моя  супруга душу продаст за салат &quot;Цезарь с курицей&quot;.  В общем говорить тут нечего, я стал постоянным  клиентом!!! "/>
+			<fx:Object image1="@Embed('/assets/images/Window/StarGray8.png')" image2="@Embed('/assets/images/Window/Star8.png')" image3="@Embed('/assets/images/Window/Star9.png')" image4="@Embed('/assets/images/Window/Star10.png')" image5="@Embed('/assets/images/Window/Star11.png')" text1="Иван Петров (12 мая 2011г.):" text2="Очень уютный и подходящий интерьер для деловых  встреч, вечернего ужина; здесь я отведал  наивкуснейшие бараньи ребра на мангале; а моя  супруга душу продаст за салат &quot;Цезарь с курицей&quot;.  В общем говорить тут нечего, я стал постоянным  клиентом!!! "/>
+			<fx:Object image1="@Embed('/assets/images/Window/StarGray8.png')" image2="@Embed('/assets/images/Window/Star8.png')" image3="@Embed('/assets/images/Window/Star9.png')" image4="@Embed('/assets/images/Window/Star10.png')" image5="@Embed('/assets/images/Window/Star11.png')" text1="Иван Петров (12 мая 2011г.):" text2="Очень уютный и подходящий интерьер для деловых  встреч, вечернего ужина; здесь я отведал  наивкуснейшие бараньи ребра на мангале; а моя  супруга душу продаст за салат &quot;Цезарь с курицей&quot;.  В общем говорить тут нечего, я стал постоянным  клиентом!!! "/>
+			<fx:Object image1="@Embed('/assets/images/Window/StarGray8.png')" image2="@Embed('/assets/images/Window/Star8.png')" image3="@Embed('/assets/images/Window/Star9.png')" image4="@Embed('/assets/images/Window/Star10.png')" image5="@Embed('/assets/images/Window/Star11.png')" text1="Иван Петров (12 мая 2011г.):" text2="Очень уютный и подходящий интерьер для деловых  встреч, вечернего ужина; здесь я отведал  наивкуснейшие бараньи ребра на мангале; а моя  супруга душу продаст за салат &quot;Цезарь с курицей&quot;.  В общем говорить тут нечего, я стал постоянным  клиентом!!! "/>
+		</s:ArrayCollection>
+	</s:List>
+	<s:BitmapImage bottom="237" width="358" smooth="true"
+				   source="@Embed('/assets/images/Window/Shape6.png')"/>
+	<s:HGroup right="20" bottom="195" gap="-10">			
+		<s:BitmapImage  smooth="true" source="@Embed('/assets/images/Window/StarGray7.png')"/>
+		<s:BitmapImage  smooth="true" source="@Embed('/assets/images/Window/StarGray7.png')"/>
+		<s:BitmapImage  smooth="true" source="@Embed('/assets/images/Window/StarGray7.png')"/>
+		<s:BitmapImage  smooth="true" source="@Embed('/assets/images/Window/StarGray7.png')"/>
+		<s:BitmapImage  smooth="true" source="@Embed('/assets/images/Window/StarGray7.png')"/>
+		</s:HGroup>
+	<s:TextArea left="20" right="20" top="465" bottom="40"/>
+	<s:Button id="orderButton" right="40" top="635"  label="Добавить"
+			  skinClass="modules.components.UIControls.RedButton"/>
+	<s:Button id="cancelButton" right="160" top="635" label="Отмена" skinClass="modules.components.UIControls.RedButton" click="cancelButton_clickHandler(event)"/>
+</s:Panel>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009" autoDrawBackground="false" xmlns:mx="library://ns.adobe.com/flex/mx">
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="hovered"/>
+		<s:State name="selected"/>
+	</s:states>
+	<s:BitmapImage  source="{data.image}" smooth="true"/>
+	<s:VGroup bottom="0" width="100%">
+		<s:BitmapImage alpha.hovered="0" width="100%" smooth="true" source="@Embed('/assets/images/Ribbon.png')"/>
+	</s:VGroup>
+	<s:VGroup alpha.normal="0" bottom="0" width="100%">
+		<s:BitmapImage width="100%" smooth="true" source="@Embed('/assets/images/RibbonRed.png')"/>
+	</s:VGroup>
+	<s:RichText color="#373636" fontFamily="Arno Pro" fontSize="24" kerning="off" lineHeight="50%"
+				text="{data.text}" trackingRight="-7.5%" whiteSpaceCollapse="preserve"
+				bottom="4" horizontalCenter="0">
+	</s:RichText>
+	
+	
+	
+	
+</s:ItemRenderer>

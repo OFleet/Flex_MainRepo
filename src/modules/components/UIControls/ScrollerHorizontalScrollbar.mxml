@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009">
+	<fx:Metadata>[HostComponent("spark.components.HScrollBar")]</fx:Metadata>
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="disabled"/>
+		<s:State name="inactive"/>
+	</s:states>
+	<fx:DesignLayer>
+		<s:Button skinClass="components.UIControls.Track" x="20" y="0" id="track"/>
+		<s:Button skinClass="components.UIControls.RightButton" x="1260" y="0" id="incrementButton"/>
+		<s:Button skinClass="components.UIControls.LeftButton1" x="0" y="0" id="decrementButton"/>
+		<s:Button skinClass="components.UIControls.Thumb" x="452" y="2" id="thumb"/>
+	</fx:DesignLayer>
+</s:Skin>

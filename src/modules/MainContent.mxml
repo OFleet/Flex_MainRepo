@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Module xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  xmlns:modules="modules.*" width="100%">
+	<s:BorderContainer id="content" width="1360" height="100%" borderVisible="false" horizontalCenter="0">
+		<s:VGroup horizontalAlign="center" horizontalCenter="0">
+		<s:HGroup>
+			<s:HGroup gap="-16">
+				<s:BitmapImage smooth="true" source="@Embed('/assets/images/BannerShdwL.png')"/>
+				<modules:Banner/>	
+			</s:HGroup>
+			<s:Spacer width="60"/>
+				<s:HGroup gap="-16">
+					<s:BitmapImage smooth="true" source="@Embed('/assets/images/BannerShdwL.png')"/>
+					<modules:Banner/>
+					<s:BitmapImage smooth="true" source="@Embed('/assets/images/BannerShdwR.png')"/>
+				</s:HGroup>
+			<s:Spacer width="60"/>
+			<s:HGroup gap="-16">
+				<modules:Banner/>
+				<s:BitmapImage smooth="true" source="@Embed('/assets/images/BannerShdwR.png')"/>
+			</s:HGroup>
+		</s:HGroup>
+			<s:Spacer height="200"/>
+		<modules:MarketShelves horizontalCenter="0"/>
+			<s:Spacer height="30"/>
+		</s:VGroup>
+	</s:BorderContainer>
+</s:Module>

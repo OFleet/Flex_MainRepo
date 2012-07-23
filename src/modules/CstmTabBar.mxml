@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 width="530" height="270">
+	<fx:Declarations>
+		<s:ArrayCollection id="cities">
+			<fx:String>Москва</fx:String>
+			<fx:String>Санкт - Петербург</fx:String>
+			<fx:String>Барнаул</fx:String>
+			<fx:String>Волгоград</fx:String>
+			<fx:String>Воронеж</fx:String>
+			<fx:String>Екатеринбург</fx:String>
+			<fx:String>Иркутск</fx:String>
+			<fx:String>Казань</fx:String>
+			<fx:String>Кемерово</fx:String>
+			<fx:String>Краснодар</fx:String>
+			<fx:String>Красноярск</fx:String>
+			<fx:String>Магнитогорск</fx:String>
+			<fx:String>Нижний Новгород</fx:String>
+			<fx:String>Новокузнецк</fx:String>
+			<fx:String>Новосибирск</fx:String>
+			<fx:String>Омск</fx:String>
+			<fx:String>Оренбург</fx:String>
+			<fx:String>Пермь</fx:String>
+			<fx:String>Ростов-на-Дону</fx:String>
+			<fx:String>Самара</fx:String>
+			<fx:String>Саратов</fx:String>
+			<fx:String>Тюмень</fx:String>
+			<fx:String>Ульяновск</fx:String>
+			<fx:String>Уфа</fx:String>
+			<fx:String>Челябинск</fx:String>
+			<fx:String>Ярославль</fx:String>
+			<fx:String>Другой...</fx:String>
+		</s:ArrayCollection>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import modules.components.UIControls.tabButton;
+			import mx.events.FlexEvent;
+			import mx.events.FlexMouseEvent;
+			import spark.components.Button;
+			import spark.events.IndexChangeEvent;
+			
+			public var myRoomBtn:Button = new Button;
+			
+			private function chCity_clickHandler(event:MouseEvent):void
+			{
+				currentState="chooseCity";
+				parentDocument.currentState = currentState == 'ejectTabs' ? '' : 'ejectTabs';
+				detectClick(event);
+			}
+			private function login_clickHandler(event:MouseEvent):void
+			{
+				currentState="logIn";
+				parentDocument.currentState = currentState == 'ejectTabs' ? '' : 'ejectTabs';
+				detectClick(event);
+			}
+			private function myRoom_clickHandler(event:MouseEvent):void
+			{
+				currentState="myRoom";
+				parentDocument.currentState = currentState == 'ejectTabs' ? '' : 'ejectTabs';
+				detectClick(event);
+			}
+			private function cityList_changeHandler(event:IndexChangeEvent):void
+			{
+				chCity.label = cityList.selectedItem;
+				parentDocument.currentState = 'default'
+			}
+			private function label1_clickHandler(event:MouseEvent):void
+			{
+				currentState="register";
+			}
+			private function label2_clickHandler(event:MouseEvent):void
+			{
+				currentState="lostPswd";
+			}
+			
+			private function loginBtn_clickHandler(event:MouseEvent):void
+			{
+				currentState="myRoom";
+				btnGrp.removeElement(login);
+				myRoomBtn.label= "Мой Кабинет";
+				myRoomBtn.setStyle("skinClass",modules.components.UIControls.tabButton); 
+				myRoomBtn.addEventListener(MouseEvent.CLICK,myRoom_clickHandler);
+				myRoomBtn.buttonMode=true;
+				btnGrp.addElementAt(myRoomBtn,1);
+			}
+			public var bCompClicked:Boolean;
+			
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+				stage.displayState = StageDisplayState.FULL_SCREEN;
+			}
+			private function detectClick(event:MouseEvent):void
+			{
+				bCompClicked=false;
+				addEvtListen();
+				cstmTabBar.addEventListener(MouseEvent.CLICK,onComponentClick);
+			}
+			private function onComponentClick(event:MouseEvent):void
+			{
+				bCompClicked = true;
+			}
+			private function addEvtListen():void
+			{
+				stage.addEventListener(MouseEvent.CLICK,onStageClick);
+			}
+			private function onStageClick(event:MouseEvent):void
+			{
+				if(!bCompClicked)
+				{
+					clickedOutSide();
+				}else{
+					bCompClicked=false;
+				}
+			}
+			private function clickedOutSide():void
+			{
+				parentDocument.currentState = "default";
+				stage.removeEventListener(MouseEvent.CLICK,onStageClick);
+			}
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="chooseCity"/>
+		<s:State name="logIn"/>
+		<s:State name="myRoom"/>
+		<s:State name="register"/>
+		<s:State name="lostPswd"/>
+	</s:states>
+	<s:Group id="cstmTabBar">
+		<s:HGroup id="btnGrp" left="0" gap="4">
+			<s:Button label="Развернуть" click="button1_clickHandler(event)" skinClass="modules.components.UIControls.tabButton"/>
+			<s:Button id="login" buttonMode="true" click="login_clickHandler(event)" label="Войти" skinClass="modules.components.UIControls.tabButton"/>
+			
+			<s:Button id="chCity" buttonMode="true" click="chCity_clickHandler(event)" label="Москва" skinClass="modules.components.UIControls.tabButton"/>
+		</s:HGroup>
+		<s:BitmapImage left="0" top="39" smooth="true" source="@Embed('/assets/images/Form.png')">
+			<s:filters>
+				<s:DropShadowFilter blurX="8" blurY="8" angle="30" alpha="0.1"/>
+			</s:filters>
+		</s:BitmapImage>
+		<s:Group width="540">
+			<s:mask>
+				<s:Group x="0" y="0" width="525">
+					<s:Rect  width="532" height="285"
+							 x="0" y="0">
+						<s:fill>
+							<s:SolidColor color="#ffffff" />
+						</s:fill>
+					</s:Rect>
+				</s:Group>
+			</s:mask>
+			<s:Group id="cityListGroup" horizontalCenter="0"
+					 horizontalCenter.logIn="510"
+					 horizontalCenter.lostPswd="510"
+					 horizontalCenter.myRoom="510"
+					 horizontalCenter.register="510">
+				<s:List id="cityList" top="49" width="443"
+						change="cityList_changeHandler(event)" dataProvider="{cities}"
+						skinClass="modules.components.CitiesList"/>
+			</s:Group>
+			<s:Group id="logInGroup" horizontalCenter="0"
+					 horizontalCenter.chooseCity="400"
+					 horizontalCenter.lostPswd="400"
+					 horizontalCenter.myRoom="400"
+					 horizontalCenter.register="400">
+				<s:TextInput  top="89" width="252" height="32" horizontalCenter="0" prompt="Электронная почта">
+					<s:filters>
+						<s:GlowFilter alpha="0.8" blurX="8" blurY="8" color="#8e8e8e"/>
+					</s:filters>
+				</s:TextInput>
+				
+				<s:TextInput displayAsPassword="true"  top="130" width="252" height="32" horizontalCenter="0" prompt="Пароль">
+					<s:filters>
+						<s:GlowFilter alpha="0.8" blurX="8" blurY="8" color="#8e8e8e"/>
+					</s:filters>
+				</s:TextInput>
+				<s:Label y="63" left="0" width="144" buttonMode="true" click="label1_clickHandler(event)"
+						 color="#6A2828" styleName="loginForm" text="Зарегистрироваться"
+						 textDecoration="underline"/>
+				<s:Label right="0" top="164" width="131" buttonMode="true" click="label2_clickHandler(event)"
+						 styleName="loginForm" text="Вспомнить пароль" textDecoration="underline"/>
+				<s:Button id="loginBtn"  right="0" top="190" width="140" height="35" label="Войти"  alpha="0.8" cornerRadius="12" fontSize="16" fontWeight="bold" click="loginBtn_clickHandler(event)"
+						  skinClass="spark.skins.spark.ButtonSkin"/>
+			</s:Group>
+			<s:Group id="registerGroup" horizontalCenter="0"
+					 horizontalCenter.chooseCity="400"
+					 horizontalCenter.logIn="400"
+					 horizontalCenter.lostPswd="400"
+					 horizontalCenter.myRoom="400">
+				<s:TextInput  top="89" width="252" height="32" horizontalCenter="0"	 prompt="Электронная почта">
+					<s:filters>
+						<s:GlowFilter alpha="0.8" blurX="8" blurY="8" color="#8e8e8e"/>
+					</s:filters>
+				</s:TextInput>
+				<s:Label  top="58" fontSize="24" horizontalCenter="0" styleName="loginForm" text="Регистрация"/>
+				<s:DropDownList  top="130" width="252" height="32" dataProvider="{cities}" fontSize="16" horizontalCenter="0" prompt="Москва"
+								 skinClass="spark.skins.spark.DropDownListSkin"></s:DropDownList>
+				<s:Button  right="0" top="191" width="196" height="35" label="Зарегистрироваться" alpha="0.8" color="#264620" cornerRadius="12" fontSize="16"
+						   fontWeight="bold" skinClass="spark.skins.spark.ButtonSkin"/>
+			</s:Group>
+			<s:Group id="lostPswdGroup" horizontalCenter="0"
+					 horizontalCenter.chooseCity="400"
+					 horizontalCenter.logIn="400"
+					 horizontalCenter.myRoom="400"
+					 horizontalCenter.register="400">
+				<s:Label  top="58" fontSize="24" horizontalCenter="0" styleName="loginForm" text="Напомнить пароль"/>
+				<s:TextInput  top="89" width="252" height="32" horizontalCenter="0"	 prompt="Электронная почта">
+					<s:filters>
+						<s:GlowFilter alpha="0.8" blurX="8" blurY="8" color="#8e8e8e"/>
+					</s:filters>
+				</s:TextInput>
+				<s:Button right="0" top="162" width="196" height="35"  label="Выслать пароль" fontSize="16" fontWeight="bold"
+						  skinClass="spark.skins.spark.ButtonSkin" cornerRadius="12" alpha="0.8"/>
+			</s:Group>
+			<s:Group id="myRoomGroup" horizontalCenter="0"
+					 horizontalCenter.chooseCity="400"
+					 horizontalCenter.logIn="400"
+					 horizontalCenter.register="400"
+					 horizontalCenter.lostPswd="400">
+				<s:VGroup top="58" horizontalAlign="center">
+					<s:Label  fontSize="22" horizontalCenter="0" styleName="loginForm"
+							  text="Роман Сфорца"/>
+					<s:Label  fontSize="18" horizontalCenter="0" styleName="loginForm"
+							  text="Мои Данные"
+							  textDecoration="underline" buttonMode="true"/>
+					<s:Label  fontSize="18" horizontalCenter="0" styleName="loginForm"
+							  text="Мои Корзины"
+							  textDecoration="underline" buttonMode="true"/>
+					<s:Label  fontSize="18" horizontalCenter="0" styleName="loginForm"
+							  text="История Моих Покупок"
+							  textDecoration="underline" buttonMode="true"/>
+					<s:Label  fontSize="18" horizontalCenter="0" styleName="loginForm"
+							  text="Мои Скидки"
+							  textDecoration="underline" buttonMode="true"/>
+				</s:VGroup>
+			</s:Group>
+		</s:Group>
+	</s:Group>
+	<s:transitions>
+		<s:Transition fromState="chooseCity" toState="logIn" autoReverse="true">
+			<s:Parallel>
+				<s:Parallel target="{cityListGroup}">
+					<s:Move duration="350" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{logInGroup}">
+					<s:Move duration="350" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>
+			</s:Parallel>
+		</s:Transition>
+		<s:Transition fromState="logIn" toState="register" autoReverse="true">
+			<s:Parallel>
+				<s:Parallel target="{logInGroup}">
+					<s:Move duration="350" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{registerGroup}">
+					<s:Move duration="350" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>
+			</s:Parallel>
+		</s:Transition>
+		<s:Transition fromState="logIn" toState="lostPswd" autoReverse="true">
+			<s:Parallel>
+				<s:Parallel target="{logInGroup}">
+					<s:Move duration="350" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{lostPswdGroup}">
+					<s:Move duration="350" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>
+			</s:Parallel>
+		</s:Transition>
+		<s:Transition fromState="chooseCity" toState="register" autoReverse="true">
+			<s:Parallel>
+				<s:Parallel target="{cityListGroup}">
+					<s:Move duration="350" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{registerGroup}">
+					<s:Move duration="350" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>
+			</s:Parallel>
+		</s:Transition>
+		<s:Transition fromState="chooseCity" toState="lostPswd" autoReverse="true">
+			<s:Parallel>
+				<s:Parallel target="{cityListGroup}">
+					<s:Move duration="350" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{lostPswdGroup}">
+					<s:Move duration="350" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>
+			</s:Parallel>
+		</s:Transition>
+		<s:Transition fromState="logIn" toState="myRoom" autoReverse="true">
+			<s:Parallel>
+				<s:Parallel target="{myRoomGroup}">
+					<s:Move duration="350" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{logInGroup}">
+					<s:Move duration="350" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>
+			</s:Parallel>
+		</s:Transition>
+		<s:Transition fromState="chooseCity" toState="myRoom" autoReverse="true">
+			<s:Parallel>
+				<s:Parallel target="{myRoomGroup}">
+					<s:Move duration="350" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>
+				<s:Parallel target="{cityListGroup}">
+					<s:Move duration="350" autoCenterTransform="true" startDelay="0"/>
+				</s:Parallel>
+			</s:Parallel>
+		</s:Transition>
+	</s:transitions>
+</s:Group>

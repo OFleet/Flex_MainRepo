@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009">
+	<fx:Metadata>[HostComponent("spark.components.Button")]</fx:Metadata>
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<s:BitmapImage smooth="true" source="@Embed('/assets/images/tabButton.png')">
+	<s:filters>
+		<s:DropShadowFilter blurX="8" blurY="8" angle="30" alpha="0.1"/>
+	</s:filters>
+		</s:BitmapImage>
+	<s:RichText id="labelDisplay" width="100%" height="100%" kerning="off" styleName="tabBtn"
+				verticalAlign="middle" whiteSpaceCollapse="preserve">
+		<s:filters>
+			<s:GlowFilter blurX="4" blurY="4" alpha="0" alpha.over="0.4" color="#8e8e8e"/>
+		</s:filters>
+	</s:RichText>
+</s:Skin>
