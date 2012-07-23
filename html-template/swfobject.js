@@ -10,7 +10,7 @@ var swfobject = function() {
 		SHOCKWAVE_FLASH_AX = "ShockwaveFlash.ShockwaveFlash",
 		FLASH_MIME_TYPE = "application/x-shockwave-flash",
 		EXPRESS_INSTALL_ID = "SWFObjectExprInst",
-		ON_READY_STATE_CHANGE = "onreadystatechange",
+		ON_READY_STATE_CHANGE = "onreadystagggtechange",
 		
 		win = window,
 		doc = document,
